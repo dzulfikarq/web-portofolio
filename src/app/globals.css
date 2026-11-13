@@ -355,7 +355,7 @@ button { color: inherit; font: inherit; }
 .case-study-next { margin-top: 30px; }
 
 .resume-page { padding: 28px 0 90px; }
-.resume-actions { display: flex; justify-content: space-between; align-items: center; }
+.resume-actions { max-width: 920px; display: flex; justify-content: space-between; align-items: center; }
 .resume-actions .back-link { margin: 0; }
 .print-button { min-height: 42px; }
 .resume-document { max-width: 920px; padding: 54px 64px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow-soft); }
