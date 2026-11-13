@@ -12,6 +12,7 @@ const navigation = [
   { label: "About", href: "#about", id: "about" },
   { label: "Projects", href: "#projects", id: "projects" },
   { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Education", href: "#education", id: "education" },
   { label: "Resume", href: "#resume", id: "resume" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
@@ -75,9 +76,10 @@ export function SiteHeader() {
         >
           {navigation.map((item) => (
             <a
-              className={pathname === "/" && activeSection === item.id ? "nav-link is-active" : "nav-link"}
+              className={(pathname === "/" && activeSection === item.id) || (pathname === "/resume" && item.id === "resume") ? "nav-link is-active" : "nav-link"}
               href={pathname === "/" ? item.href : `/${item.href}`}
               key={item.id}
+              aria-current={pathname === "/resume" && item.id === "resume" ? "page" : undefined}
               onClick={() => setMenuOpen(false)}
             >
               {item.label}

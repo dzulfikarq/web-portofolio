@@ -42,6 +42,7 @@ export type Project = {
 export const profile = {
   name: "Danny Akhmad Zulfikar",
   initials: "DAZ",
+  portrait: "/images/danny-potrait.png",
   title: "Frontend Engineer & Fullstack Developer",
   location: "Malang, Indonesia",
   experience: "5+ years",
@@ -59,8 +60,8 @@ export const profile = {
 
 export const skills = [
   { group: "Frontend", items: ["Vue.js", "React.js", "Next.js", "TypeScript", "JavaScript"] },
-  { group: "Backend & data", items: ["PHP", "Laravel", ".NET", "MySQL"] },
-  { group: "APIs & tools", items: ["REST API", "GraphQL", "Git"] },
+  { group: "Backend & API", items: ["Node.js", "Golang", "PHP", "Laravel", ".NET", "REST API", "GraphQL"] },
+  { group: "Database / Tools", items: ["MySQL", "Git"] },
 ] as const;
 
 export const languages = ["Bahasa Indonesia (Native)", "English (Professional Working Proficiency)"];

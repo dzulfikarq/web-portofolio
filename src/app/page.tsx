@@ -5,14 +5,15 @@ import {
   CalendarDays,
   Code2,
   Database,
+  GraduationCap,
   Mail,
   PanelsTopLeft,
-  Sparkles,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
-import { experience, featuredProjects, profile, skills } from "@/data/portfolio";
+import { education, experience, featuredProjects, profile, skills } from "@/data/portfolio";
 import { personStructuredData } from "@/lib/structured-data";
 
 function SectionHeading({
@@ -38,8 +39,8 @@ function SectionHeading({
 const highlights = [
   { icon: CalendarDays, value: profile.experience, label: "Web development experience" },
   { icon: PanelsTopLeft, value: "Frontend", label: skills[0].items.slice(0, 3).join(" · ") },
-  { icon: Code2, value: "Fullstack", label: skills[1].items.slice(0, 3).join(" · ") },
-  { icon: Database, value: "API integration", label: "RESTful APIs · GraphQL" },
+  { icon: Code2, value: "Backend & API", label: skills[1].items.slice(0, 4).join(" · ") },
+  { icon: Database, value: "Database / Tools", label: skills[2].items.join(" · ") },
 ];
 
 export default function HomePage() {
@@ -77,32 +78,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="hero-visual" role="img" aria-label="Abstract code editor illustration with frontend, backend, and product details">
-            <div className="hero-visual-glow" />
-            <div className="hero-orbit hero-orbit-one" />
-            <div className="hero-orbit hero-orbit-two" />
-            <div className="hero-floating-note note-top"><Sparkles size={15} /> Made with intention</div>
-            <div className="editor-window">
-              <div className="editor-chrome">
-                <div className="window-dots"><i /><i /><i /></div>
-                <span>thoughtful-work.tsx</span>
-                <Code2 size={15} />
-              </div>
-              <div className="editor-content">
-                <div className="editor-line"><span className="line-no">01</span><span><b>const</b> product = &#123;</span></div>
-                <div className="editor-line indent"><span className="line-no">02</span><span>purpose: <em>&quot;useful&quot;</em>,</span></div>
-                <div className="editor-line indent"><span className="line-no">03</span><span>experience: <em>&quot;thoughtful&quot;</em>,</span></div>
-                <div className="editor-line indent"><span className="line-no">04</span><span>quality: <em>&quot;built to last&quot;</em></span></div>
-                <div className="editor-line"><span className="line-no">05</span><span>&#125;;</span></div>
-                <div className="editor-line editor-empty"><span className="line-no">06</span><span /></div>
-                <div className="editor-line"><span className="line-no">07</span><span><b>export default</b> product;</span></div>
-              </div>
-              <div className="editor-status"><span><i /> Ready to build</span><span>UTF-8&nbsp; · &nbsp;TSX</span></div>
-            </div>
-            <div className="hero-floating-note note-bottom"><span className="note-spark">✳</span> Design <span className="note-arrow">↗</span> Develop <span className="note-arrow">↗</span> Refine</div>
-            <div className="hero-stack-chip chip-react"><span>R</span> React</div>
-            <div className="hero-stack-chip chip-ts"><span>TS</span> TypeScript</div>
-            <div className="hero-visual-index">01 <span>—</span> 04</div>
+          <div className="hero-visual hero-portrait-visual">
+            <Image
+              src={profile.portrait}
+              alt={`Illustrated portrait of ${profile.name}`}
+              fill
+              sizes="(max-width: 600px) calc(100vw - 36px), (max-width: 820px) min(100vw - 42px, 520px), 44vw"
+              preload
+            />
           </div>
         </section>
 
@@ -191,6 +174,32 @@ export default function HomePage() {
                 <span className="experience-entry-location">{profile.location}</span>
               </Reveal>
             ))}
+          </div>
+        </section>
+
+        <section className="education-section section-space" id="education" aria-labelledby="education-title">
+          <div className="shell">
+            <Reveal>
+              <SectionHeading
+                eyebrow="Academic background"
+                title="Education"
+                description="The foundation behind my software engineering journey."
+                id="education-title"
+              />
+            </Reveal>
+            <div className="education-grid">
+              {education.map((item, index) => (
+                <Reveal className="education-card" delay={index * 0.08} key={item.institution}>
+                  <div className="education-card-top">
+                    <span className="education-card-icon"><GraduationCap size={21} aria-hidden="true" /></span>
+                    {item.period && <span className="education-period"><CalendarDays size={14} aria-hidden="true" /> {item.period}</span>}
+                  </div>
+                  <h3>{item.institution}</h3>
+                  {item.qualification && <p>{item.qualification}</p>}
+                  {item.gpa && <span className="education-gpa">GPA {item.gpa}</span>}
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 

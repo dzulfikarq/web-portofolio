@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, Code2, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ArrowUpRight, BriefcaseBusiness, Building2, CalendarDays, Code2, GraduationCap, Globe2, Layers3, Mail, MapPin, Monitor, UserRound } from "lucide-react";
 import Link from "next/link";
-import { PrintButton } from "@/components/print-button";
-import { education, experience, featuredProjects, languages, profile, skills } from "@/data/portfolio";
+import { education, experience, languages, profile, skills } from "@/data/portfolio";
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -14,89 +14,164 @@ export const metadata: Metadata = {
   },
 };
 
+const contactLinks = [
+  { label: "Email", href: `mailto:${profile.email}`, value: profile.email, icon: Mail },
+  { label: "GitHub", href: profile.githubUrl, value: "github.com/dzulfikarq", icon: Code2 },
+  { label: "LinkedIn", href: profile.linkedinUrl, value: "linkedin.com/in/danny-zulfikar", icon: ArrowUpRight },
+];
+
+const experienceIcons = [Building2, Code2, Monitor, Layers3];
+const languageRows = languages.map((language) => {
+  const match = language.match(/^(.*?)\s+\((.*)\)$/);
+  return { name: match?.[1] ?? language, proficiency: match?.[2] ?? "" };
+});
+
 export default function ResumePage() {
   return (
     <main className="page-main resume-page" id="main-content">
-      <div className="shell resume-actions no-print">
-        <Link className="back-link" href="/#resume"><ArrowLeft size={15} /> Back to home</Link>
-        <PrintButton />
+      <div className="shell resume-actions">
+        <Link className="back-link" href="/#resume"><ArrowLeft size={16} /> Back to home</Link>
       </div>
+
       <article className="resume-document shell" aria-labelledby="resume-name">
-        <header className="resume-header">
-          <div>
+        <header className="resume-hero">
+          <div className="resume-hero-copy">
             <span className="eyebrow">Professional resume</span>
             <h1 id="resume-name">{profile.name}</h1>
             <p className="resume-role">{profile.title}</p>
+            <div className="resume-hero-meta" aria-label="Contact details">
+              <span className="resume-meta-location"><MapPin size={16} aria-hidden="true" /> {profile.location}</span>
+              {contactLinks.map(({ label, href, value, icon: Icon }) => (
+                <a href={href} key={label} target={label === "Email" ? undefined : "_blank"} rel={label === "Email" ? undefined : "noreferrer"}>
+                  <Icon size={16} aria-hidden="true" /> {value}
+                </a>
+              ))}
+            </div>
           </div>
-          <div className="resume-contact">
-            <span><MapPin size={15} /> {profile.location}</span>
-            <a href={profile.githubUrl} target="_blank" rel="noreferrer"><Code2 size={15} /> github.com/dzulfikarq <ArrowUpRight size={13} /></a>
-            <a href={`mailto:${profile.email}`}>{profile.email}</a>
-            <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={13} /></a>
-          </div>
+          <figure className="resume-portrait" aria-label="Portrait illustration">
+            <Image
+              src={profile.portrait}
+              alt={`Illustrated portrait of ${profile.name}`}
+              fill
+              sizes="(max-width: 600px) 180px, (max-width: 900px) 240px, 350px"
+            />
+          </figure>
         </header>
 
-        <section className="resume-section-block">
-          <h2>Professional summary</h2>
-          <p>{profile.summary}</p>
-        </section>
-
-        <section className="resume-section-block">
-          <h2>Work experience</h2>
-          {experience.map((entry) => (
-            <div className="resume-entry" key={`${entry.role}-${entry.organization ?? ""}`}>
-              <div className="resume-entry-heading">
-                <h3>{entry.role}</h3>
-                {entry.period && <span>{entry.period}</span>}
+        <div className="resume-layout">
+          <div className="resume-main-column">
+            <section className="resume-card resume-summary-card" aria-labelledby="summary-heading">
+              <div className="resume-card-heading">
+                <span className="resume-card-icon"><UserRound size={22} aria-hidden="true" /></span>
+                <h2 id="summary-heading">Professional Summary</h2>
               </div>
-              {entry.organization && <p className="resume-entry-organization">{entry.organization}</p>}
-              {entry.description && <p>{entry.description}</p>}
-            </div>
-          ))}
-        </section>
+              <p className="resume-summary-text">{profile.summary}</p>
+            </section>
 
-        <section className="resume-section-block">
-          <h2>Education</h2>
-          {education.map((item) => (
-            <div className="resume-entry" key={`${item.institution}-${item.qualification ?? ""}`}>
-              <div className="resume-entry-heading">
-                <h3>{item.institution}</h3>
-                {item.period && <span>{item.period}</span>}
+            <section className="resume-card resume-experience-card" aria-labelledby="experience-heading">
+              <div className="resume-card-heading">
+                <span className="resume-card-icon"><BriefcaseBusiness size={22} aria-hidden="true" /></span>
+                <h2 id="experience-heading">Work Experience</h2>
               </div>
-              {item.qualification && <p className="resume-entry-organization">{item.qualification}{item.gpa && ` · GPA ${item.gpa}`}</p>}
-            </div>
-          ))}
-        </section>
-
-        <section className="resume-section-block">
-          <h2>Technical skills</h2>
-          <div className="resume-skills">
-            {skills.map((group) => (
-              <div className="resume-skill-group" key={group.group}>
-                <h3>{group.group}</h3>
-                <p>{group.items.join(" · ")}</p>
-              </div>
-            ))}
+              <ol className="resume-timeline">
+                {experience.map((entry, index) => {
+                  const Icon = experienceIcons[index] ?? Building2;
+                  return (
+                    <li className="resume-timeline-item" key={`${entry.role}-${entry.organization ?? ""}`}>
+                      <span className="resume-timeline-node" aria-hidden="true" />
+                      <article className="resume-entry-card">
+                        <span className="resume-entry-icon"><Icon size={21} aria-hidden="true" /></span>
+                        <div className="resume-entry-content">
+                          <div className="resume-entry-heading">
+                            <div>
+                              <h3>{entry.role}</h3>
+                              {entry.organization && <p className="resume-entry-organization">{entry.organization}</p>}
+                            </div>
+                            {entry.period && <span className="resume-period"><CalendarDays size={14} aria-hidden="true" /> {entry.period}</span>}
+                          </div>
+                          {entry.description && <p className="resume-entry-description">{entry.description}</p>}
+                        </div>
+                      </article>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
           </div>
-        </section>
 
-        <section className="resume-section-block">
-          <h2>Languages</h2>
-          <p>{languages.join(" · ")}</p>
-        </section>
-
-        <section className="resume-section-block resume-contact-block">
-          <h2>Selected projects</h2>
-          {featuredProjects.map((project) => (
-            <div className="resume-entry resume-project" key={project.slug}>
-              <div className="resume-entry-heading">
-                <h3><Link href={`/projects/${project.slug}`}>{project.name}</Link></h3>
-                <span>{project.category}</span>
+          <aside className="resume-side-column" aria-label="Contact and qualifications">
+            <section className="resume-card resume-contact-card" aria-labelledby="contact-heading">
+              <div className="resume-card-heading resume-card-heading-compact">
+                <span className="resume-card-icon"><Mail size={21} aria-hidden="true" /></span>
+                <div>
+                  <h2 id="contact-heading">Contact</h2>
+                  <p>Get in touch with me</p>
+                </div>
               </div>
-              <p>{project.description}</p>
-            </div>
-          ))}
-        </section>
+              <ul className="resume-contact-list">
+                {contactLinks.map(({ label, href, value, icon: Icon }) => (
+                  <li key={label}>
+                    <a href={href} target={label === "Email" ? undefined : "_blank"} rel={label === "Email" ? undefined : "noreferrer"}>
+                      <Icon size={16} aria-hidden="true" />
+                      <span>{value}</span>
+                      {label !== "Email" && <ArrowUpRight size={14} aria-hidden="true" />}
+                    </a>
+                  </li>
+                ))}
+                <li className="resume-contact-location"><MapPin size={16} aria-hidden="true" /><span>{profile.location}</span></li>
+              </ul>
+            </section>
+
+            <section className="resume-card resume-education-card" aria-labelledby="education-heading">
+              <div className="resume-card-heading resume-card-heading-compact">
+                <span className="resume-card-icon"><GraduationCap size={22} aria-hidden="true" /></span>
+                <h2 id="education-heading">Education</h2>
+              </div>
+              <ol className="resume-education-list">
+                {education.map((item) => (
+                  <li className="resume-education-item" key={`${item.institution}-${item.qualification ?? ""}`}>
+                    <span className="resume-education-node" aria-hidden="true" />
+                    <div className="resume-education-heading">
+                      <h3>{item.institution}</h3>
+                      {item.period && <span className="resume-period">{item.period}</span>}
+                    </div>
+                    {item.qualification && <p>{item.qualification}</p>}
+                    {item.gpa && <p className="resume-gpa">GPA {item.gpa}</p>}
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section className="resume-card resume-skills-card" aria-labelledby="skills-heading">
+              <div className="resume-card-heading resume-card-heading-compact">
+                <span className="resume-card-icon"><Layers3 size={21} aria-hidden="true" /></span>
+                <h2 id="skills-heading">Technical Skills</h2>
+              </div>
+              <div className="resume-skill-groups">
+                {skills.map((group) => (
+                  <div className="resume-skill-group" key={group.group}>
+                    <h3>{group.group}</h3>
+                    <ul className="resume-skill-list">
+                      {group.items.map((skill) => <li key={skill}>{skill}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="resume-card resume-languages-card" aria-labelledby="languages-heading">
+              <div className="resume-card-heading resume-card-heading-compact">
+                <span className="resume-card-icon"><Globe2 size={21} aria-hidden="true" /></span>
+                <h2 id="languages-heading">Languages</h2>
+              </div>
+              <ul className="resume-language-list">
+                {languageRows.map(({ name, proficiency }) => (
+                  <li key={name}><strong>{name}</strong><span>{proficiency}</span></li>
+                ))}
+              </ul>
+            </section>
+          </aside>
+        </div>
       </article>
     </main>
   );
