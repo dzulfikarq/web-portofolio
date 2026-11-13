@@ -8,6 +8,7 @@ import { profile } from "@/data/portfolio";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
+  { label: "Home", href: "#home", id: "home" },
   { label: "About", href: "#about", id: "about" },
   { label: "Projects", href: "#projects", id: "projects" },
   { label: "Experience", href: "#experience", id: "experience" },
@@ -18,9 +19,11 @@ const navigation = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState(pathname === "/" ? "home" : "");
 
   useEffect(() => {
+    if (pathname !== "/") return;
+
     const sections = navigation
       .map(({ id }) => document.getElementById(id))
       .filter((section): section is HTMLElement => section !== null);
@@ -35,7 +38,7 @@ export function SiteHeader() {
     );
 
     const clearActiveAtTop = () => {
-      if (window.scrollY < 160) setActiveSection("");
+      if (window.scrollY < 160) setActiveSection("home");
     };
 
     sections.forEach((section) => observer.observe(section));
@@ -44,14 +47,14 @@ export function SiteHeader() {
       observer.disconnect();
       window.removeEventListener("scroll", clearActiveAtTop);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link className="brand" href="/#home" aria-label={`${profile.name}, home`} onClick={() => setMenuOpen(false)}>
-          <span className="brand-mark">d<span>.</span></span>
-          <span className="brand-name">Danny Zulfikar</span>
+        <Link className="brand" href="/#home" aria-label={`${profile.name}, home`} onClick={() => { setMenuOpen(false); setActiveSection("home"); }}>
+          <span className="brand-mark">{profile.initials}</span>
+          <span className="brand-name">{profile.name}</span>
         </Link>
 
         <button
@@ -72,7 +75,7 @@ export function SiteHeader() {
         >
           {navigation.map((item) => (
             <a
-              className={activeSection === item.id ? "nav-link is-active" : "nav-link"}
+              className={pathname === "/" && activeSection === item.id ? "nav-link is-active" : "nav-link"}
               href={pathname === "/" ? item.href : `/${item.href}`}
               key={item.id}
               onClick={() => setMenuOpen(false)}

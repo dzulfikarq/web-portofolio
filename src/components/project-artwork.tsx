@@ -27,7 +27,7 @@ export function ProjectArtwork({ project }: { project: Project }) {
         </div>
         <div className="artwork-orbit"><span>{artwork.mark}</span><i /><i /><i /></div>
       </div>
-      <span className="artwork-caption">PROJECT STUDY <span>—</span> {project.category.toUpperCase()}</span>
+      <span className="artwork-caption">ILLUSTRATIVE ARTWORK <span>—</span> {project.category.toUpperCase()}</span>
     </div>
   );
 }

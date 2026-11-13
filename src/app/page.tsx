@@ -2,8 +2,11 @@ import {
   ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
+  CalendarDays,
   Code2,
-  MapPin,
+  Database,
+  Mail,
+  PanelsTopLeft,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
@@ -32,6 +35,13 @@ function SectionHeading({
   );
 }
 
+const highlights = [
+  { icon: CalendarDays, value: profile.experience, label: "Professional frontend experience" },
+  { icon: Code2, value: "Fullstack", label: "Frontend craft, backend perspective" },
+  { icon: PanelsTopLeft, value: skills[0].group, label: skills[0].items.slice(0, 3).join(" · ") },
+  { icon: Database, value: skills[1].group, label: skills[1].items.join(" · ") },
+];
+
 export default function HomePage() {
   const personJsonLd = JSON.stringify(personStructuredData()).replace(/</g, "\\u003c");
 
@@ -47,8 +57,8 @@ export default function HomePage() {
               <span className="kicker-divider">/</span>
               <span>{profile.location}</span>
             </div>
-            {profile.availability && <span className="availability-badge">{profile.availability.label}</span>}
-            <h1 id="hero-title">Building <span>thoughtful digital products</span> with code.</h1>
+            {profile.availability && <span className="availability-badge"><span className="availability-dot" />{profile.availability.label}</span>}
+            <h1 id="hero-title">Building thoughtful digital products <span>with code.</span></h1>
             <p className="hero-description">{profile.heroDescription}</p>
             <div className="hero-actions">
               <a className="button button-primary" href="#projects">
@@ -60,10 +70,10 @@ export default function HomePage() {
             </div>
             <div className="hero-socials">
               <a href={profile.githubUrl} target="_blank" rel="noreferrer">
-                <Code2 size={17} aria-hidden="true" /> GitHub <ArrowUpRight size={13} aria-hidden="true" />
+                <Code2 size={16} aria-hidden="true" /> GitHub
               </a>
-              <span className="social-separator" />
-              <span><MapPin size={15} aria-hidden="true" /> Malang, Indonesia</span>
+              {profile.linkedinUrl && <a href={profile.linkedinUrl} target="_blank" rel="noreferrer"><ArrowUpRight size={16} aria-hidden="true" /> LinkedIn</a>}
+              {profile.email && <a href={`mailto:${profile.email}`}><Mail size={16} aria-hidden="true" /> Email</a>}
             </div>
           </div>
 
@@ -97,21 +107,12 @@ export default function HomePage() {
         </section>
 
         <section className="highlight-section shell" aria-label="Professional highlights">
-          <Reveal className="highlight-card">
-            <span className="highlight-index">01</span>
-            <strong>{profile.experience}</strong>
-            <span>Professional frontend experience</span>
-          </Reveal>
-          <Reveal className="highlight-card" delay={0.08}>
-            <span className="highlight-index">02</span>
-            <strong>Fullstack</strong>
-            <span>Frontend craft, backend perspective</span>
-          </Reveal>
-          <Reveal className="highlight-card" delay={0.16}>
-            <span className="highlight-index">03</span>
-            <strong>Malang, ID</strong>
-            <span>Based in Indonesia</span>
-          </Reveal>
+          {highlights.map(({ icon: Icon, value, label }, index) => (
+            <Reveal className="highlight-card" delay={index * 0.06} key={value}>
+              <span className="highlight-icon"><Icon size={17} aria-hidden="true" /></span>
+              <span className="highlight-copy"><strong>{value}</strong><span>{label}</span></span>
+            </Reveal>
+          ))}
         </section>
 
         <section className="stack-section section-space" id="stack" aria-labelledby="stack-title">
@@ -131,28 +132,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="about-section section-space shell" id="about" aria-labelledby="about-title">
-          <Reveal className="about-aside">
-            <span className="eyebrow">A little about me</span>
-            <p className="about-aside-quote">Good software feels considered — from the first interaction to the details under the hood.</p>
-            <span className="about-aside-mark">DAZ<span>.</span></span>
-          </Reveal>
-          <Reveal className="about-content" delay={0.1}>
-            <h2 id="about-title">Engineering with a <span>human touch.</span></h2>
-            <p>{profile.about}</p>
-            <a className="text-link" href={profile.githubUrl} target="_blank" rel="noreferrer">
-              More about my work <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-          </Reveal>
-        </section>
-
         <section className="projects-section section-space" id="projects" aria-labelledby="projects-title">
           <div className="shell">
             <Reveal>
               <SectionHeading
-                eyebrow="Selected work"
-                title="A few things I’ve worked on."
-                description="A mix of product thinking, useful tooling, and creative workflows."
+                eyebrow="Featured projects"
+                title="Selected Works"
+                description="A few products I’ve worked on, from academic platforms to developer tools."
                 id="projects-title"
               />
             </Reveal>
@@ -169,6 +155,21 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section className="about-section section-space shell" id="about" aria-labelledby="about-title">
+          <Reveal className="about-aside">
+            <span className="eyebrow">A little about me</span>
+            <p className="about-aside-quote">Good software feels considered — from the first interaction to the details under the hood.</p>
+            <span className="about-aside-mark">DAZ<span>.</span></span>
+          </Reveal>
+          <Reveal className="about-content" delay={0.1}>
+            <h2 id="about-title">Engineering with a <span>human touch.</span></h2>
+            <p>{profile.about}</p>
+            <a className="text-link" href={profile.githubUrl} target="_blank" rel="noreferrer">
+              More about my work <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </Reveal>
         </section>
 
         <section className="experience-section section-space shell" id="experience" aria-labelledby="experience-title">

@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="shell footer-inner">
         <Link className="footer-brand" href="/#home">
-          <span className="brand-mark">d<span>.</span></span>
+          <span className="brand-mark">{profile.initials}</span>
           <span>Thoughtful work, built with care.</span>
         </Link>
         <p>© {new Date().getFullYear()} {profile.name}</p>
