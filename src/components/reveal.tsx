@@ -12,9 +12,9 @@ export function Reveal({ children, delay = 0, ...props }: RevealProps) {
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      initial={reduceMotion ? false : { opacity: 1, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
+      viewport={{ once: true, amount: 0.08 }}
       transition={{ duration: reduceMotion ? 0 : 0.5, delay }}
       {...props}
     >

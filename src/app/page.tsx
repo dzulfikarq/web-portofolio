@@ -237,7 +237,7 @@ export default function HomePage() {
                 Find me on GitHub <Code2 size={17} aria-hidden="true" /> <ArrowUpRight size={14} aria-hidden="true" />
               </a>
             </div>
-            <div className="contact-stamp" aria-hidden="true">OPEN<br />TO IDEAS <span>↗</span></div>
+            <div className="contact-stamp" aria-hidden="true">{profile.initials}<span>·</span></div>
           </Reveal>
         </section>
       </main>

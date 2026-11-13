@@ -34,8 +34,16 @@ export function SiteHeader() {
       { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] },
     );
 
+    const clearActiveAtTop = () => {
+      if (window.scrollY < 160) setActiveSection("");
+    };
+
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    window.addEventListener("scroll", clearActiveAtTop, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", clearActiveAtTop);
+    };
   }, []);
 
   return (
