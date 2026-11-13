@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, Code2, MapPin } from "lucide-react";
 import Link from "next/link";
 import { PrintButton } from "@/components/print-button";
-import { education, experience, profile, publishedProjects, skills } from "@/data/portfolio";
+import { education, experience, featuredProjects, languages, profile, skills } from "@/data/portfolio";
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -31,14 +31,41 @@ export default function ResumePage() {
           <div className="resume-contact">
             <span><MapPin size={15} /> {profile.location}</span>
             <a href={profile.githubUrl} target="_blank" rel="noreferrer"><Code2 size={15} /> github.com/dzulfikarq <ArrowUpRight size={13} /></a>
-            {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
-            {profile.linkedinUrl && <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={13} /></a>}
+            <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={13} /></a>
           </div>
         </header>
 
         <section className="resume-section-block">
           <h2>Professional summary</h2>
           <p>{profile.summary}</p>
+        </section>
+
+        <section className="resume-section-block">
+          <h2>Work experience</h2>
+          {experience.map((entry) => (
+            <div className="resume-entry" key={`${entry.role}-${entry.organization ?? ""}`}>
+              <div className="resume-entry-heading">
+                <h3>{entry.role}</h3>
+                {entry.period && <span>{entry.period}</span>}
+              </div>
+              {entry.organization && <p className="resume-entry-organization">{entry.organization}</p>}
+              {entry.description && <p>{entry.description}</p>}
+            </div>
+          ))}
+        </section>
+
+        <section className="resume-section-block">
+          <h2>Education</h2>
+          {education.map((item) => (
+            <div className="resume-entry" key={`${item.institution}-${item.qualification ?? ""}`}>
+              <div className="resume-entry-heading">
+                <h3>{item.institution}</h3>
+                {item.period && <span>{item.period}</span>}
+              </div>
+              {item.qualification && <p className="resume-entry-organization">{item.qualification}{item.gpa && ` · GPA ${item.gpa}`}</p>}
+            </div>
+          ))}
         </section>
 
         <section className="resume-section-block">
@@ -54,29 +81,13 @@ export default function ResumePage() {
         </section>
 
         <section className="resume-section-block">
-          <h2>Work experience</h2>
-          {experience.length > 0 ? experience.map((entry) => (
-            <div className="resume-entry" key={`${entry.role}-${entry.organization ?? ""}`}>
-              <div className="resume-entry-heading">
-                <h3>{entry.role}{entry.organization && <span> · {entry.organization}</span>}</h3>
-                {entry.period && <span>{entry.period}</span>}
-              </div>
-              {entry.description && <p>{entry.description}</p>}
-            </div>
-          )) : (
-            <div className="resume-entry">
-              <div className="resume-entry-heading">
-                <h3>Professional frontend development</h3>
-                <span>{profile.experience}</span>
-              </div>
-              <p>Employer and role details have not been provided.</p>
-            </div>
-          )}
+          <h2>Languages</h2>
+          <p>{languages.join(" · ")}</p>
         </section>
 
-        <section className="resume-section-block">
+        <section className="resume-section-block resume-contact-block">
           <h2>Selected projects</h2>
-          {publishedProjects.map((project) => (
+          {featuredProjects.map((project) => (
             <div className="resume-entry resume-project" key={project.slug}>
               <div className="resume-entry-heading">
                 <h3><Link href={`/projects/${project.slug}`}>{project.name}</Link></h3>
@@ -85,24 +96,6 @@ export default function ResumePage() {
               <p>{project.description}</p>
             </div>
           ))}
-        </section>
-
-        <section className="resume-section-block">
-          <h2>Education</h2>
-          {education.length > 0 ? education.map((item) => (
-            <div className="resume-entry" key={`${item.institution}-${item.qualification ?? ""}`}>
-              <div className="resume-entry-heading">
-                <h3>{item.institution}</h3>
-                {item.period && <span>{item.period}</span>}
-              </div>
-              {item.qualification && <p>{item.qualification}</p>}
-            </div>
-          )) : <p className="resume-muted">Education details have not been provided.</p>}
-        </section>
-
-        <section className="resume-section-block resume-contact-block">
-          <h2>Contact information</h2>
-          <p>{profile.location} · <a href={profile.githubUrl} target="_blank" rel="noreferrer">GitHub profile</a></p>
         </section>
       </article>
     </main>

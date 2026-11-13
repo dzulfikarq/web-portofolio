@@ -6,11 +6,12 @@ export function personStructuredData() {
     "@type": "Person",
     name: profile.name,
     jobTitle: profile.title,
+    email: profile.email,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Malang",
       addressCountry: "Indonesia",
     },
-    sameAs: [profile.githubUrl],
+    sameAs: [profile.githubUrl, profile.linkedinUrl].filter(Boolean),
   };
 }

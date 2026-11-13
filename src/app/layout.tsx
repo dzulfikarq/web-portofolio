@@ -14,11 +14,10 @@ export const metadata: Metadata = {
     default: `${profile.name} — ${profile.title}`,
     template: `%s | ${profile.name}`,
   },
-  description:
-    "Danny Akhmad Zulfikar is a Fullstack Developer in Malang, Indonesia, with around four years of professional frontend development experience.",
+  description: `${profile.name} is a ${profile.title} in ${profile.location}, with ${profile.experience} of web development experience.`,
   openGraph: {
     title: `${profile.name} — ${profile.title}`,
-    description: "Thoughtful digital products, built with care.",
+    description: profile.summary,
     type: "website",
     locale: "en_US",
     siteName: profile.name,
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${profile.name} — ${profile.title}`,
-    description: "Thoughtful digital products, built with care.",
+    description: profile.summary,
   },
   robots: { index: true, follow: true },
 };

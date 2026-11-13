@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
-import { experience, profile, publishedProjects, skills } from "@/data/portfolio";
+import { experience, featuredProjects, profile, skills } from "@/data/portfolio";
 import { personStructuredData } from "@/lib/structured-data";
 
 function SectionHeading({
@@ -36,10 +36,10 @@ function SectionHeading({
 }
 
 const highlights = [
-  { icon: CalendarDays, value: profile.experience, label: "Professional frontend experience" },
-  { icon: Code2, value: "Fullstack", label: "Frontend craft, backend perspective" },
-  { icon: PanelsTopLeft, value: skills[0].group, label: skills[0].items.slice(0, 3).join(" · ") },
-  { icon: Database, value: skills[1].group, label: skills[1].items.join(" · ") },
+  { icon: CalendarDays, value: profile.experience, label: "Web development experience" },
+  { icon: PanelsTopLeft, value: "Frontend", label: skills[0].items.slice(0, 3).join(" · ") },
+  { icon: Code2, value: "Fullstack", label: skills[1].items.slice(0, 3).join(" · ") },
+  { icon: Database, value: "API integration", label: "RESTful APIs · GraphQL" },
 ];
 
 export default function HomePage() {
@@ -58,7 +58,7 @@ export default function HomePage() {
               <span>{profile.location}</span>
             </div>
             {profile.availability && <span className="availability-badge"><span className="availability-dot" />{profile.availability.label}</span>}
-            <h1 id="hero-title">Building thoughtful digital products <span>with code.</span></h1>
+            <h1 id="hero-title">Building scalable, responsive <span>web applications.</span></h1>
             <p className="hero-description">{profile.heroDescription}</p>
             <div className="hero-actions">
               <a className="button button-primary" href="#projects">
@@ -138,12 +138,12 @@ export default function HomePage() {
               <SectionHeading
                 eyebrow="Featured projects"
                 title="Selected Works"
-                description="A few products I’ve worked on, from academic platforms to developer tools."
+                description="A selection spanning academic platforms, business dashboards, and developer tools."
                 id="projects-title"
               />
             </Reveal>
             <div className="project-grid featured-project-grid">
-              {publishedProjects.map((project, index) => (
+              {featuredProjects.map((project, index) => (
                 <Reveal key={project.slug} delay={index * 0.08}>
                   <ProjectCard project={project} />
                 </Reveal>
@@ -176,30 +176,22 @@ export default function HomePage() {
           <Reveal className="experience-heading">
             <span className="eyebrow">The path so far</span>
             <h2 id="experience-title">Experience</h2>
-            <p>Professional frontend development, with a growing fullstack toolkit.</p>
+            <p>Web application development, API integration, and reusable interface components.</p>
           </Reveal>
-          {experience.length > 0 ? experience.map((entry) => (
-            <Reveal className="experience-entry" delay={0.1} key={`${entry.role}-${entry.organization ?? ""}`}>
-              <div className="experience-marker"><span /></div>
-              <div className="experience-entry-main">
-                <span className="experience-period">{entry.period}</span>
-                <h3>{entry.role}</h3>
-                {entry.organization && <span className="experience-organization">{entry.organization}</span>}
-                {entry.description && <p>{entry.description}</p>}
-              </div>
-              <span className="experience-entry-location">{profile.location}</span>
-            </Reveal>
-          )) : (
-            <Reveal className="experience-entry" delay={0.1}>
-              <div className="experience-marker"><span /></div>
-              <div className="experience-entry-main">
-                <span className="experience-period">{profile.experience}</span>
-                <h3>Professional frontend development</h3>
-                <p>Employer and role details have not been added.</p>
-              </div>
-              <span className="experience-entry-location">{profile.location}</span>
-            </Reveal>
-          )}
+          <div className="experience-timeline">
+            {experience.map((entry) => (
+              <Reveal className="experience-entry" delay={0.1} key={`${entry.role}-${entry.organization ?? ""}`}>
+                <div className="experience-marker"><span /></div>
+                <div className="experience-entry-main">
+                  <span className="experience-period">{entry.period}</span>
+                  <h3>{entry.role}</h3>
+                  {entry.organization && <span className="experience-organization">{entry.organization}</span>}
+                  {entry.description && <p>{entry.description}</p>}
+                </div>
+                <span className="experience-entry-location">{profile.location}</span>
+              </Reveal>
+            ))}
+          </div>
         </section>
 
         <section className="resume-section section-space shell" id="resume" aria-labelledby="resume-title">
@@ -233,9 +225,9 @@ export default function HomePage() {
             <div className="contact-content">
               <span className="eyebrow">Have something in mind?</span>
               <h2 id="contact-title">Let’s build something <span>worth using.</span></h2>
-              <p>The best way to reach me right now is through GitHub.</p>
-              <a className="button button-light" href={profile.githubUrl} target="_blank" rel="noreferrer">
-                Find me on GitHub <Code2 size={17} aria-hidden="true" /> <ArrowUpRight size={14} aria-hidden="true" />
+              <p>Reach out by email or connect with me on LinkedIn.</p>
+              <a className="button button-light" href={`mailto:${profile.email}`}>
+                Email me <Mail size={17} aria-hidden="true" /> <ArrowUpRight size={14} aria-hidden="true" />
               </a>
             </div>
             <div className="contact-stamp" aria-hidden="true">{profile.initials}<span>·</span></div>

@@ -79,7 +79,9 @@ export default async function ProjectCaseStudy({ params }: ProjectPageProps) {
           </Reveal>
           <Reveal className="case-study-art" delay={0.08}>
             <ProjectArtwork project={project} />
-            <p className="artwork-disclaimer">Illustrative artwork — project screenshots not supplied.</p>
+            <p className="artwork-disclaimer">
+              {project.imageCaption ?? (project.thumbnail ? "Project screenshot." : "Illustrative artwork — project screenshots not supplied.")}
+            </p>
           </Reveal>
         </header>
 
@@ -88,6 +90,11 @@ export default async function ProjectCaseStudy({ params }: ProjectPageProps) {
             {caseStudy?.problem && <CaseStudyBlock title="The problem"><p>{caseStudy.problem}</p></CaseStudyBlock>}
             {caseStudy?.solution && <CaseStudyBlock title="The solution"><p>{caseStudy.solution}</p></CaseStudyBlock>}
             {caseStudy?.myRole && <CaseStudyBlock title="My role"><p>{caseStudy.myRole}</p></CaseStudyBlock>}
+            {caseStudy?.visibleModules && caseStudy.visibleModules.length > 0 && (
+              <CaseStudyBlock title="Visible modules">
+                <ul>{caseStudy.visibleModules.map((module) => <li key={module}>{module}</li>)}</ul>
+              </CaseStudyBlock>
+            )}
             {caseStudy?.features && caseStudy.features.length > 0 && (
               <CaseStudyBlock title="Key features">
                 <ul>{caseStudy.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
@@ -111,7 +118,6 @@ export default async function ProjectCaseStudy({ params }: ProjectPageProps) {
               </CaseStudyBlock>
             )}
             {caseStudy?.outcome && <CaseStudyBlock title="Outcome"><p>{caseStudy.outcome}</p></CaseStudyBlock>}
-            <p className="case-study-note">Only verified project information is shown. Additional case-study details will be added when available.</p>
           </div>
           <aside className="case-study-sidebar" aria-label="Project information">
             <div className="case-study-meta">

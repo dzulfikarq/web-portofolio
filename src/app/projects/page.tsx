@@ -3,11 +3,11 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { ProjectBrowser } from "@/components/project-browser";
 import { Reveal } from "@/components/reveal";
-import { publishedProjects } from "@/data/portfolio";
+import { profile, publishedProjects } from "@/data/portfolio";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Selected projects by Danny Akhmad Zulfikar, Fullstack Developer.",
+  description: `Selected projects by ${profile.name}, ${profile.title}.`,
   openGraph: {
     title: "Projects | Danny Akhmad Zulfikar",
     description: "Selected projects across product, tooling, and creative workflows.",

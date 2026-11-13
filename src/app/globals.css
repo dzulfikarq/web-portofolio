@@ -210,6 +210,9 @@ button { color: inherit; font: inherit; }
 .project-card:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--accent-light) 55%, var(--border)); box-shadow: var(--shadow); }
 .project-card-art-link { display: block; overflow: hidden; }
 .project-artwork { position: relative; min-height: 220px; aspect-ratio: 1.52; display: flex; flex-direction: column; justify-content: space-between; padding: 13px 15px 12px; overflow: hidden; background: #f1edff; color: #2e2358; }
+.project-artwork-image { display: block; padding: 0; background: #f3f4f6; }
+.project-artwork-image::before { display: none; }
+.project-artwork-image img { object-fit: contain; }
 .project-artwork::before { position: absolute; content: ""; width: 220px; height: 220px; right: -38px; top: 18px; border: 1px solid rgb(124 58 237 / 18%); border-radius: 50%; box-shadow: 0 0 0 28px rgb(124 58 237 / 5%), 0 0 0 57px rgb(124 58 237 / 4%); }
 .artwork-topline { position: relative; z-index: 1; display: flex; gap: 4px; }
 .artwork-topline span { width: 5px; height: 5px; border-radius: 50%; background: rgb(46 35 88 / 32%); }
@@ -265,8 +268,9 @@ button { color: inherit; font: inherit; }
 .section-cta { display: flex; justify-content: center; margin-top: 34px; }
 
 .experience-section { display: grid; grid-template-columns: .72fr 1.28fr; align-items: start; gap: 80px; }
+.experience-timeline { border-top: 1px solid var(--border); }
 .experience-heading h2 { margin-top: 10px; }
-.experience-entry { position: relative; display: flex; align-items: flex-start; gap: 18px; padding: 25px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.experience-entry { position: relative; display: flex; align-items: flex-start; gap: 18px; padding: 19px 0; border-bottom: 1px solid var(--border); }
 .experience-marker { width: 14px; flex: 0 0 14px; padding-top: 7px; }
 .experience-marker span { display: block; width: 9px; height: 9px; border: 2px solid var(--accent); border-radius: 50%; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-light) 15%, transparent); }
 .experience-entry-main { flex: 1; }
@@ -367,10 +371,11 @@ button { color: inherit; font: inherit; }
 .resume-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .resume-skill-group h3, .resume-entry h3 { margin: 0; font-size: 11px; font-weight: 700; }
 .resume-skill-group p { margin: 3px 0 0; color: var(--muted-strong); font-size: 10px; line-height: 1.7; }
-.resume-entry + .resume-entry { margin-top: 13px; }
+.resume-entry + .resume-entry { margin-top: 10px; }
 .resume-entry-heading { display: flex; justify-content: space-between; gap: 14px; }
 .resume-entry-heading h3 a:hover { color: var(--accent-dark); }
 .resume-entry-heading h3 span, .resume-entry-heading > span { color: var(--muted); font-size: 10px; font-weight: 500; }
+.resume-entry-organization { color: var(--muted-strong) !important; font-weight: 600; }
 .resume-entry > p { margin-top: 4px; }
 .resume-muted { color: var(--muted) !important; font-style: italic; }
 .resume-contact-block { border-bottom: 0; padding-bottom: 0; }
@@ -423,6 +428,7 @@ button { color: inherit; font: inherit; }
   .about-aside { min-height: 290px; }
   .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .experience-section { grid-template-columns: 1fr; gap: 28px; }
+  .experience-timeline { min-width: 0; }
   .experience-entry { max-width: none; }
   .resume-preview { min-height: 340px; padding: 45px 40px; }
   .resume-preview-paper { right: 5%; opacity: .62; }
@@ -490,7 +496,7 @@ button { color: inherit; font: inherit; }
   .artwork-title { font-size: 26px; }
   .project-card-content { padding: 17px; }
   .project-card-content > p { min-height: auto; margin-bottom: 13px; }
-  .experience-entry { gap: 12px; }
+  .experience-entry { gap: 12px; padding-block: 16px; }
   .experience-entry h3 { font-size: 14px; }
   .experience-entry-location { display: none; }
   .resume-section { padding-top: 0; }
@@ -539,22 +545,24 @@ button { color: inherit; font: inherit; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-@page { size: A4; margin: 14mm 15mm; }
+@page { size: A4; margin: 9mm 12mm; }
 @media print {
   :root, :root.dark { color-scheme: light; --page: #fff; --surface: #fff; --text: #111827; --muted: #4b5563; --muted-strong: #374151; --border: #d1d5db; --accent: #6d28d9; }
-  html, body { background: #fff !important; color: #111827 !important; font-size: 10pt; }
+  html, body { background: #fff !important; color: #111827 !important; font-size: 9pt; }
   .site-header, .site-footer, .skip-link, .no-print, .resume-actions { display: none !important; }
   .page-main, .resume-page { min-height: 0; padding: 0; }
   .resume-document { width: 100%; max-width: none; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
-  .resume-header { padding-bottom: 12pt; }
-  .resume-header h1 { font-size: 23pt; }
-  .resume-role { font-size: 11pt; }
-  .resume-section-block { padding: 10pt 0 8pt; }
-  .resume-section-block h2 { margin-bottom: 6pt; font-size: 11pt; }
-  .resume-section-block > p, .resume-entry > p { font-size: 9pt; }
-  .resume-skill-group h3, .resume-entry h3 { font-size: 9pt; }
-  .resume-skill-group p, .resume-entry-heading > span, .resume-entry-heading h3 span { font-size: 8.5pt; }
-  .resume-contact { font-size: 8.5pt; }
+  .resume-header { padding-bottom: 8pt; }
+  .resume-header h1 { font-size: 20pt; }
+  .resume-role { font-size: 10pt; }
+  .resume-contact { gap: 2pt; font-size: 7.5pt; }
+  .resume-section-block { padding: 5pt 0 4pt; }
+  .resume-section-block h2 { margin-bottom: 4pt; font-size: 10pt; }
+  .resume-section-block > p, .resume-entry > p { font-size: 8pt; line-height: 1.4; }
+  .resume-entry + .resume-entry { margin-top: 5pt; }
+  .resume-entry > p { margin-top: 2pt; }
+  .resume-skill-group h3, .resume-entry h3 { font-size: 8.5pt; }
+  .resume-skill-group p, .resume-entry-heading > span, .resume-entry-heading h3 span { font-size: 7.5pt; }
   .resume-contact a, .resume-entry-heading h3 a, .resume-contact-block a { color: #111827; }
   .resume-section-block, .resume-entry { break-inside: avoid; }
   a { text-decoration: none; }
